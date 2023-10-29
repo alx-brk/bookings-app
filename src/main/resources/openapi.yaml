@@ -1,0 +1,439 @@
+openapi: 3.0.1
+info:
+  version: 0.0.1
+  title: Bookings
+tags:
+  - name: Accommodation
+  - name: Reservation
+servers:
+  - url: /v1
+paths:
+  /accommodation:
+    post:
+      tags:
+        - Accommodation
+      summary: create new accommodation
+      operationId: createAccommodation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccommodationRequest'
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accommodation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /accommodation/{accommodationId}:
+    put:
+      tags:
+        - Accommodation
+      summary: update accommodation
+      operationId: updateAccommodation
+      parameters:
+        - name: accommodationId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccommodationRequest'
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accommodation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+    get:
+      tags:
+        - Accommodation
+      summary: get accommodation by id
+      operationId: getAccommodation
+      parameters:
+        - name: accommodationId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accommodation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /accommodation/search:
+    get:
+      tags:
+        - Accommodation
+      summary: search accommodation
+      operationId: searchAccommodations
+      parameters:
+        - name: fromDate
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: date
+        - name: toDate
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: date
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Accommodation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /reservation/block:
+    post:
+      tags:
+        - Reservation
+      summary: block accommodation
+      operationId: blockAccommodation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservationRequest'
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /reservation/book:
+    post:
+      tags:
+        - Reservation
+      summary: book accommodation
+      operationId: bookAccommodation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservationRequest'
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /reservation/{reservationId}:
+    put:
+      tags:
+        - Reservation
+      summary: update reservation
+      operationId: updateReservation
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReservationRequest'
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+    get:
+      tags:
+        - Reservation
+      summary: get reservation
+      operationId: getReservation
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+    delete:
+      tags:
+        - Reservation
+      summary: delete reservation
+      operationId: deleteReservation
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful request
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+  /reservation/search:
+    get:
+      tags:
+        - Reservation
+      summary: search reservations
+      operationId: searchReservations
+      parameters:
+        - name: fromDate
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: date
+        - name: toDate
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+            format: date
+        - name: reservationType
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/ReservationType'
+      responses:
+        200:
+          description: successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reservation'
+        400:
+          $ref: '#/components/responses/Error'
+        500:
+          $ref: '#/components/responses/Error'
+
+
+
+components:
+  responses:
+    Error:
+      description: error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CommonError'
+
+  schemas:
+    CreateAccommodationRequest:
+      type: object
+      required:
+        - name
+        - address
+        - price
+        - checkInTime
+        - checkOutTime
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        price:
+          type: integer
+          format: int64
+        checkInTime:
+          type: integer
+          format: int32
+          description: 0 - 23 hours past midnight
+        checkOutTime:
+          type: integer
+          format: int32
+          description: 0 - 23 hours past midnight
+
+    UpdateAccommodationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        price:
+          type: integer
+          format: int64
+        checkInTime:
+          type: integer
+          format: int32
+          description: 0 - 23 hours past midnight
+        checkOutTime:
+          type: integer
+          format: int32
+          description: 0 - 23 hours past midnight
+
+    Accommodation:
+      type: object
+      properties:
+        accommodationId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        address:
+          type: string
+        price:
+          type: integer
+          format: int64
+        checkInTime:
+          type: integer
+          format: int32
+          description: 0 - 23 hours past midnight
+        checkOutTime:
+          type: integer
+          format: int32
+          description: 0 - 23 hours past midnight
+
+    CreateReservationRequest:
+      type: object
+      required:
+        - accommodationId
+        - startDate
+        - endDate
+      properties:
+        accommodationId:
+          type: integer
+          format: int64
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        guestName:
+          type: string
+
+    UpdateReservationRequest:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        guestName:
+          type: string
+
+    Reservation:
+      type: object
+      properties:
+        reservationId:
+          type: integer
+          format: int64
+        accommodationId:
+          type: integer
+          format: int64
+        reservationType:
+          $ref: '#/components/schemas/ReservationType'
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+
+    ReservationType:
+      type: string
+      enum:
+        - BLOCK
+        - BOOKING
+
+
+    CommonError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
